@@ -18,6 +18,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class CentralMonitoringServiceTest {
 
     @Test
+    void parsesValidPayload() {
+        Measurement m = MeasurementParser.parse( SensorType.TEMPERATURE, "sensor_id=t1; value=30");
+        assertEquals("t1", m.sensorId());
+        assertEquals(30.0, m.value());
+    }
+
+    @Test
     void alarmsOnlyAboveThreshold() {
         List<String> alarms = new ArrayList<>();
         var central = new CentralMonitoringService(Map.of(), alarms::add);
